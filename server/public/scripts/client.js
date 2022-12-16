@@ -28,7 +28,7 @@ function setupClickListeners() {
     // call saveKoala with the new obejct
     saveKoala( koalaToSend );
   }); 
-  // $(`body`).on(`click`, `#deleteBtn`, deleteKoala)
+  $(`body`).on(`click`, `.deleteBtn`, deleteKoala)
   $(`body`).on(`click`, `.transferBtn`, markAsReady)
   $(`body`).on(`click`, `.undoBtn`, markAsUnready)
 }
@@ -119,3 +119,16 @@ function saveKoala( newKoala ){
   getKoalas();
   // ajax call to server to get koalas
 };
+
+function deleteKoala () {
+  let id = $(this).data().id;
+  $.ajax({
+    method: `DELETE`,
+    url: `/koala/${id}`
+  }).then((response) => {
+    console.log(response)
+    getKoalas();
+  }).catch((error) => {
+    console.log(`Error in /DELETE`, error);
+  })
+}

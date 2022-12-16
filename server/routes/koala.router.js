@@ -64,21 +64,18 @@ router.put (`/:id`, (req, res) => {
 
 // DELETE
 router.delete('/:id', (req, res) => {
-    console.log(req.params);
-    let idToDelete = req.params.id;
-  
+    let id = req.params.id;
+    console.log(`Parameters`, req.params);
     let sqlQuery = `
-      DELETE FROM "koala"
+      DELETE FROM "KOALA"
         WHERE "id"=$1;        
     `
-    let sqlValues = [idToDelete];
+    let sqlValues = [id];
     pool.query(sqlQuery, sqlValues)
       .then((dbRes) => {
-        // That worked! Tell "OK" to the client:
         res.sendStatus(200);
-      })
-      .catch((dbErr) => {
-        console.log('broke in DELETE /creatures/:id', dbErr);
+      }).catch((dbErr) => {
+        console.log('broke in DELETE /koala/:id', dbErr);
         res.sendStatus(500);
       })
   })
