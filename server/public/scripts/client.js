@@ -7,6 +7,7 @@ $( document ).ready( function(){
   // load existing koalas on page load
   getKoalas();
 
+
 }); // end doc ready
 
 function setupClickListeners() {
@@ -28,7 +29,21 @@ function setupClickListeners() {
     saveKoala( koalaToSend );
   }); 
   // $(`body`).on(`click`, `#deleteBtn`, deleteKoala)
-  $(`body`).on(`click`, `#transferBtn`, readyToTransfer)
+  $(`body`).on(`click`, `#transferBtn`, markAsReady)
+}
+function markAsReady(){
+  let id = $(this).data().id;
+  $.ajax({
+      type: `PUT`,
+      url: `/KOALA/${id}`,
+      data: {
+          isRead: '1'
+      }
+  }).then((response) => {
+
+  }).catch((error) => {
+  console.log(`ERROR in PUT`,error);
+  })
 }
 
 function getKoalas() {
@@ -41,33 +56,37 @@ function getKoalas() {
     console.log(response);
     $(`#viewKoalas`).empty();
     for (let koala of response) {
+      if (koala.ready_to_transfer === `Y`) {
+        $(`#viewKoalas`).append(`
+        <tr>
+        <td>${koala.name}</td>
+        <td>${koala.gender}</td>
+        <td>${koala.age}</td>
+        <td>${koala.ready_to_transfer}</td>
+        <td>${koala.notes}</td>
+        <td><button data-id=${koala.id} class="deleteBtn">Delete</button></td>
+        <td>Ready to transfer</td>
+        </tr>
+        `)
+      } else {
+        $(`#viewKoalas`).append(`
+        <tr>
+        <td>${koala.name}</td>
+        <td>${koala.gender}</td>
+        <td>${koala.age}</td>
+        <td>${koala.ready_to_transfer}</td>
+        <td>${koala.notes}</td>
+        <td><button data-id=${koala.id} class="deleteBtn">Delete</button></td>
+        <td><button  data-id="${koala.id}" class="transferBtn">Mark as Ready</button></td></tr>
+        `)
+      }
       $(`#viewKoalas`).append(`
-      <tr>
-      <td>${koala.name}</td>
-      <td>${koala.gender}</td>
-      <td>${koala.age}</td>
-      <td>${koala.ready_to_transfer}</td>
-      <td>${koala.notes}</td>
-      <td><button data-id=${koala.id} class="deleteBtn">Delete</button></td>
+
       `);
-      readyToTransfer(koala);
     };
   });
 }; // end getKoalas
 
-function readyToTransfer (koala) {
-  if (`${koala.ready_to_transfer} === Y`) {
-    $(`#viewKoalas`).append(`
-    <td>Ready to transfer</td></tr>
-    `)
-  } else {
-    $(`#viewKoalas`).append(`
-    <td>
-    <button  data-id="${koala.id}" class="transferBtn">Mark as Ready</button>
-    </td></tr>
-    `)
-  };
-}
 
 function saveKoala( newKoala ){
   console.log( 'in saveKoala', newKoala );

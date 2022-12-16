@@ -1,9 +1,7 @@
-const { Router } = require('express');
+const { Router, response } = require('express');
 const express = require('express');
 const router = express.Router();
 const pool = require(`../module/pool.js`)
-
-// DB CONNECTION
 
 
 // GET
@@ -44,7 +42,20 @@ router.post('/', (req,res) => {
   })
 
 // PUT
+// function markAsReady(){
+//     let id = $(this).data().id;
+//     $.ajax({
+//         type: `PUT`,
+//         url: `/KOALA/${id}`,
+//         data: {
+//             isRead: '1'
+//         }
+//     }).then((response) => {
 
+//     }).catch((error) => {
+//     console.log(`ERROR in PUT`,error);
+//     })
+// }
 
 // DELETE
 router.delete('/:id', (req, res) => {
