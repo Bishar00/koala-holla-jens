@@ -30,7 +30,9 @@ function setupClickListeners() {
   }); 
   // $(`body`).on(`click`, `#deleteBtn`, deleteKoala)
   $(`body`).on(`click`, `.transferBtn`, markAsReady)
+  $(`body`).on(`click`, `.undoBtn`, markAsUnready)
 }
+
 function markAsReady(){
   let id = $(this).data().id;
   $.ajax({
@@ -38,6 +40,21 @@ function markAsReady(){
       url: `/koala/${id}`,
       data: {
           ready_to_transfer: 'Y'
+      }
+  }).then((response) => {
+    getKoalas();
+  }).catch((error) => {
+  console.log(`ERROR in PUT`,error);
+  })
+}
+
+function markAsUnready(){
+  let id = $(this).data().id;
+  $.ajax({
+      type: `PUT`,
+      url: `/koala/${id}`,
+      data: {
+          ready_to_transfer: 'N'
       }
   }).then((response) => {
     getKoalas();
@@ -65,7 +82,7 @@ function getKoalas() {
         <td>${koala.ready_to_transfer}</td>
         <td>${koala.notes}</td>
         <td><button data-id=${koala.id} class="deleteBtn">Delete</button></td>
-        <td>Ready to transfer</td>
+        <td><button  data-id="${koala.id}" class="undoBtn">Mark as Unready</button></td>
         </tr>
         `)
       } else {
