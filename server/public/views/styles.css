@@ -1,0 +1,26 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+.title {
+    text-align: center;
+    margin: auto;
+}
+
+#icon {
+max-width: 200px;
+align-content: left;
+display: inline-flex;
+}
+
+#koalaTable{
+    min-width: 90vw;
+}
+
+table, tr, td  {
+    text-align: center;
+    margin: auto;
+    border: solid 1px;
+    border-collapse: collapse;
+}
+
