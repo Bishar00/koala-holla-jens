@@ -2,15 +2,33 @@
     box-sizing: border-box;
 }
 
+header {
+    background-color: cornflowerblue;
+    height: 150px;
+    width: 100%;
+}
+
+#headerContent {
+    padding: 20px;
+    display: inline-block;
+    float: right;
+}
+
 .title {
     text-align: center;
     margin: auto;
 }
 
+#addKoala {
+    text-align: center;
+    margin: auto;
+}
+
 #icon {
-max-width: 200px;
-align-content: left;
-display: inline-flex;
+    padding: 25px;
+    max-width: 150px;
+    float: left;
+    display: inline-flex;
 }
 
 #koalaTable{

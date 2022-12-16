@@ -10,7 +10,7 @@ router.get(`/`, (req, res) => {
     let sqlQuery = `
     SELECT * 
     FROM "KOALA"
-        ORDER BY "ready_to_transfer" ASC`;
+        ORDER BY "ready_to_transfer" DESC`;
         pool.query(sqlQuery)
         .then ((dbRes) => {
             let koalaTableData = dbRes.rows;
