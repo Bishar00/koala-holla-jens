@@ -29,7 +29,7 @@ router.post('/', (req,res) => {
     ("name", "gender", "age", "ready_to_transfer", "notes")
     VALUES
     ($1, $2, $3, $4, $5)`
-    let sqlValues = [req.body.name, req.body.gender, req.body.age, req.body.readyForTransfer, req.body.notes];
+    let sqlValues = [req.body.name, req.body.gender, req.body.age, req.body.ready_to_transfer, req.body.notes];
     console.log(`Here's the values:`, sqlValues);
     pool.query(sqlQuery,sqlValues)
     .then((dbRes) => {
@@ -42,20 +42,25 @@ router.post('/', (req,res) => {
   })
 
 // PUT
-// function markAsReady(){
-//     let id = $(this).data().id;
-//     $.ajax({
-//         type: `PUT`,
-//         url: `/KOALA/${id}`,
-//         data: {
-//             isRead: '1'
-//         }
-//     }).then((response) => {
+router.put (`/:id`, (req, res) => {
+    let id = req.params.id;
+    console.log(req.params.ready_to_transfer)
+    let ready_to_transfer = req.body.ready_to_transfer;
+    let sqlQuery = `
+    UPDATE "KOALA"
+        SET "ready_to_transfer" = $1
+            WHERE "id" = $2; 
+    `
+    let sqlValues = [ready_to_transfer, id];
 
-//     }).catch((error) => {
-//     console.log(`ERROR in PUT`,error);
-//     })
-// }
+    pool.query(sqlQuery, sqlValues)
+    .then ((dbRes) => {
+        res.sendStatus(200);
+    }).catch ((dbErr) => {
+        console.log(`Error in PUT`, dbErr);
+        res.sendStatus(500);
+    });
+});
 
 // DELETE
 router.delete('/:id', (req, res) => {

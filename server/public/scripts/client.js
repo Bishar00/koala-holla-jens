@@ -22,25 +22,25 @@ function setupClickListeners() {
       name: $(`#nameIn`).val(),
       age: $(`#ageIn`).val(),
       gender: $(`#genderIn`).val(),
-      readyForTransfer: $(`#readyForTransferIn`).val(),
+      ready_to_transfer: $(`#readyForTransferIn`).val(),
       notes: $(`#notesIn`).val(),
     };
     // call saveKoala with the new obejct
     saveKoala( koalaToSend );
   }); 
   // $(`body`).on(`click`, `#deleteBtn`, deleteKoala)
-  $(`body`).on(`click`, `#transferBtn`, markAsReady)
+  $(`body`).on(`click`, `.transferBtn`, markAsReady)
 }
 function markAsReady(){
   let id = $(this).data().id;
   $.ajax({
       type: `PUT`,
-      url: `/KOALA/${id}`,
+      url: `/koala/${id}`,
       data: {
-          isRead: '1'
+          ready_to_transfer: 'Y'
       }
   }).then((response) => {
-
+    getKoalas();
   }).catch((error) => {
   console.log(`ERROR in PUT`,error);
   })
